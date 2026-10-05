@@ -1,0 +1,15 @@
+# Dependencias pesadas
+/node_modules
+
+# Archivos de compilación
+/dist
+
+# Variables de entorno y secretos (¡Muy importante!)
+.env
+.env.production
+.env.local
+
+# Logs y archivos del sistema
+*.log
+npm-debug.log*
+.DS_Store
