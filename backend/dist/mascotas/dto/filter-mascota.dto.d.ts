@@ -1,0 +1,7 @@
+import { EspecieMascota, EstadoMascota } from '../entities/mascota.entity';
+export declare class FilterMascotaDto {
+    barrio?: string;
+    especie?: EspecieMascota;
+    estado?: EstadoMascota;
+    busqueda?: string;
+}
