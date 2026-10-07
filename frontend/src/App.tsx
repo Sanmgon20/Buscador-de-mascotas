@@ -202,9 +202,9 @@ export function App() {
               <span>{apiError}</span>
             </div>
             <button
-              onClick={fetchMascotas}
-              className="flex items-center gap-1 font-bold text-[#EA580C] hover:underline cursor-pointer shrink-0"
-            >
+  onClick={() => fetchMascotas()}
+  className="flex items-center gap-1 font-bold text-[#EA580C] hover:underline cursor-pointer shrink-0"
+>
               <RefreshCw className="w-3.5 h-3.5" />
               Reconectar API
             </button>
