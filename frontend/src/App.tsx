@@ -77,6 +77,49 @@ export function App() {
   }, [filters.reportType])
 
   // Lógica de filtrado en cliente (aplica sobre los datos ya cargados del backend)
+    try {
+      setIsLoading(true)
+      setApiError(null)
+
+      // Solo pasamos el estado al backend si es 'resuelto' (caso especial)
+      // Para el resto, el filtrado lo hace el cliente sobre el resultado completo
+      const apiFilters =
+        currentFilters?.reportType === 'resuelto'
+          ? { reportType: 'resuelto' as const }
+          : undefined
+
+      const data = await mascotasApi.getMascotas(apiFilters)
+
+      if (data && data.length > 0) {
+        setPets(data.map(mapMascotaEntityToPetPost))
+        setIsLiveApi(true)
+      } else {
+        setPets(currentFilters?.reportType === 'resuelto' ? [] : MOCK_PETS)
+        setIsLiveApi(true)
+      }
+    } catch (err) {
+      console.warn('Backend desconectado o no accesible, usando datos locales:', err)
+      setApiError('El backend no está respondiendo. Mostrando publicaciones locales de prueba.')
+      setPets(MOCK_PETS)
+      setIsLiveApi(false)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchMascotas()
+  }, [fetchMascotas])
+
+  // Re-fetch al backend cuando el usuario activa/desactiva el filtro "Resueltos"
+  // porque el backend excluye resueltos por defecto y hay que pedirlos explícitamente
+  useEffect(() => {
+    fetchMascotas(filters)
+    // Solo recargamos del backend cuando cambia reportType (el resto filtra en cliente)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters.reportType])
+
+  // Lógica de filtrado en cliente (aplica sobre los datos ya cargados del backend)
   const filteredPets = useMemo(() => {
     return pets.filter((pet) => {
       // Filtro por tipo de reporte (ya fue aplicado al backend para 'resuelto',

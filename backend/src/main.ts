@@ -6,12 +6,7 @@ async function bootstrap() {
 
   // Habilitar CORS para permitir peticiones desde el frontend (React / Vite)
   app.enableCors({
-    origin: [
-      'http://localhost:5173',
-      'http://127.0.0.1:5173',
-      'http://localhost:3000',
-      /^http:\/\/localhost:\d+$/,
-    ],
+    origin: '*', // O podés poner tu URL de Vercel: 'https://tu-app.vercel.app'
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
